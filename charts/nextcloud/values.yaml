@@ -21,9 +21,14 @@ replicaCount: 1
 ## ref: https://kubernetes.io/docs/concepts/services-networking/ingress/
 ##
 ingress:
-  enabled: false
+  enabled: true
   # className: nginx
-  annotations: {}
+  annotations: 
+    haproxy.org/server-keep-alive: "10s"
+    kubernetes.io/ingress.class: haproxy
+    haproxy.org/ssl-redirect: "true"
+    haproxy.org/ssl-redirect-code: "301"
+  
   #  nginx.ingress.kubernetes.io/proxy-body-size: 4G
   #  kubernetes.io/tls-acme: "true"
   #  cert-manager.io/cluster-issuer: letsencrypt-prod
@@ -369,6 +374,7 @@ cronjob:
 
 service:
   type: ClusterIP
+  type1: LoadBalancer
   port: 8080
   loadBalancerIP: ""
   nodePort: nil
